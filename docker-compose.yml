@@ -7,19 +7,19 @@ services:
     ports:
       - ${PUBLIC_IP?PUBLIC_IP}:${PORT?PORT}:80
 
+  frontend:
+    image: pmbot/ui:${FRONTEND_VERSION:-latest}
+    environment:
+      PMBOT_API_URL: ${API_URL?API_URL}
+    restart: ${RESTART_POLICY?RESTART_POLICY}
+
   backend:
-    image: ${REPOSITORY}pmbot/backend${PREMIUM_SUFFIX}:${BACKEND_VERSION:-latest}
+    image: ${REPOSITORY}pmbot/backend${BACKEND_SUFFIX}:${BACKEND_VERSION:-latest}
     restart: ${RESTART_POLICY?RESTART_POLICY}
     environment:
       APP_UI_URL: ${APP_UI_URL?APP_UI_URL}
     volumes:
       - ${SECRETS_VOLUME?SECRETS_VOLUME}:/secrets
-
-  frontend:
-    image: ${REPOSITORY}pmbot/ui${PREMIUM_SUFFIX}:${FRONTEND_VERSION:-latest}
-    environment:
-      PMBOT_API_URL: ${API_URL?API_URL}
-    restart: ${RESTART_POLICY?RESTART_POLICY}
 
   mongo:
     image: mongo:4.2-bionic

@@ -5,17 +5,17 @@ services:
     image: pmbot/reverse-proxy
     restart: unless-stopped
     ports:
-      - 127.0.0.1:9118:80
-
-  backend:
-    image: pmbot/backend
-    restart: unless-stopped
-    volumes:
-      - secrets:/secrets
+      - 9118:80
 
   frontend:
     image: pmbot/ui
     restart: unless-stopped
+
+  backend:
+    image: pmbot/backend-community
+    restart: unless-stopped
+    volumes:
+      - secrets:/secrets
 
   mongo:
     image: mongo:4.2-bionic
