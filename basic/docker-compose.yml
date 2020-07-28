@@ -1,0 +1,28 @@
+version: "3.6"
+
+services:
+  reverse-proxy:
+    image: pmbot/reverse-proxy
+    restart: unless-stopped
+    ports:
+      - 127.0.0.1:9118:80
+
+  backend:
+    image: pmbot/backend
+    restart: unless-stopped
+    volumes:
+      - secrets:/secrets
+
+  frontend:
+    image: pmbot/ui
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:4.2-bionic
+    restart: unless-stopped
+    volumes:
+      - mongo:/data/db
+
+volumes:
+  mongo:
+  secrets:
